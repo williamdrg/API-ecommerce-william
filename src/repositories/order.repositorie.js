@@ -1,4 +1,4 @@
-const { Order, ProductInOrder } = require('../models')
+const { Order, ProductInOrder, Product } = require('../models')
 
 const createOrder = async (userId, totalPrice) => {
  
@@ -20,7 +20,22 @@ const addProductToOrder = async (order, productInCart) => {
 }
 
 const findOrdersByUserId = async (userId) => {
-  return await Order.findAll({ where: { userId } });
+  return await Order.findAll({
+    where: { userId },
+    attributes: { exclude: ['updatedAt'] }, 
+    include: [
+      {
+        model: ProductInOrder,
+        attributes: { exclude: ['productId', 'createdAt', 'updatedAt'] },
+        include: [
+          {
+            model: Product,
+            attributes: { exclude: ['price', 'availableQty', 'userId'] },
+          }
+        ]
+      }
+    ]
+  });
 }
 
 module.exports = {

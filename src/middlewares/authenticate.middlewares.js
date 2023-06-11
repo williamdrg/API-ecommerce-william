@@ -4,8 +4,7 @@ require('dotenv').config()
 const authenticate = (req, res, next) => {
   try {
     // para recuperar el token lo traemos de los headers de la petición
-    const token = req.headers.authorization.split(" ")[1];
-    console.log(token)
+    const token = req.headers.authorization.split(' ')[1];
 
     if (!token) {
       return next({
