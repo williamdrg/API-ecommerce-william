@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5000",
+      "url": "https://ecomerce-api-8u64.onrender.com",
       "variables": {}
     }
   ],
@@ -469,7 +469,7 @@
           "Order"
         ],
         "summary": "get all orders",
-        "description": "StartFragment\n\nObtiene todas las ordenes de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Devuelve una lista de todas las órdenes del usuario.\n    \n\nEndFragment",
+        "description": "Obtiene todas las ordenes de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Devuelve una lista de todas las órdenes del usuario.",
         "operationId": "getallorders",
         "responses": {
           "200": {
@@ -546,15 +546,15 @@
                   },
                   {
                     "example": {
-                      "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjg2NDkzOTYwLCJleHAiOjE2ODY0OTc1NjB9.ObcqeMtro2LljAua3H0Q3T_40uHVBjfCejFjEhB7TycdS1AOL151JSpJYsWlWEViOEJr27aJWBeY_EcjRrH36w",
+                      "token": "ingrese su token",
                       "newPassword": "12345"
                     }
                   }
                 ]
               },
               "example": {
-                "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjg2NDkzOTYwLCJleHAiOjE2ODY0OTc1NjB9.ObcqeMtro2LljAua3H0Q3T_40uHVBjfCejFjEhB7TycdS1AOL151JSpJYsWlWEViOEJr27aJWBeY_EcjRrH36w",
-                "newPassword": "12345"
+                "token": "ingrese su token",
+                "newPassword": "ingrese su nueva contraseña"
               }
             }
           },
