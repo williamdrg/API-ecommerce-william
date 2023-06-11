@@ -1,0 +1,739 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ecomerce",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "create a user",
+        "description": "Crea un nuevo usuario.\n\n- Body: Contiene un JSON con`username`, `email`, `password`.\n- Respuesta: Crea un nuevo usuario y devuelve un status 201.",
+        "operationId": "createauser",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/createauserrequest"
+                  },
+                  {
+                    "example": {
+                      "username": "william",
+                      "email": "william@gmail.com",
+                      "password": "1234"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "username": "william",
+                "email": "william@gmail.com",
+                "password": "1234"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "get all users",
+        "description": "Obtiene una lista de todos los usuarios.\n\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Devuelve una lista de todos los usuarios.",
+        "operationId": "getallusers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "login",
+        "description": "Inicia sesión de un usuario existente.\n\n- Body: Contiene un JSON con`email` y `password`.\n- Respuesta: Autentica al usuario y devuelve un token de autenticación. El token expira en 1 hora.",
+        "operationId": "login",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/loginrequest"
+                  },
+                  {
+                    "example": {
+                      "email": "william@gmail.com",
+                      "password": "12345678"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "email": "william@gmail.com",
+                "password": "12345678"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+   "/update/users": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "update username and avatar",
+        "description": "Actualiza la información de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: Contiene un JSON con los campos que se quieren actualizar (`username` y `avatar`).\n- Respuesta: Actualiza los datos del usuario y devuelve el usuario actualizado.",
+        "operationId": "updateusernameandavatar",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "encoding": {},
+              "schema": {
+                "required": [
+                  "username",
+                  "avatar"
+                ],
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "paranguturimicuaro"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }, 
+    "/productAvaible": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "get all products",
+        "description": "Obtiene una lista de todos los productos disponibles.\n\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Devuelve una lista de todos los productos disponibles.",
+        "operationId": "getallproducts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/products": {
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "summary": "create product",
+        "description": "Crea un nuevo producto.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: Envia un JSON que contiene `name`, `descripción`, `availableQty`, `price`, y el archivo de la imagen del producto como `productImage`.\n- Respuesta: Crea un nuevo producto y devuelve el producto creado.",
+        "operationId": "createproduct",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "name",
+                  "description",
+                  "availableQty",
+                  "price",
+                  "productImage"
+                ],
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "nombre del producto"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "descripción del producto"
+                  },
+                  "availableQty": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10
+                  },
+                  "price": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 150
+                  },
+                  "productImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/products/{id}": {
+      "put": {
+        "tags": [
+          "products"
+        ],
+        "summary": "update product description",
+        "description": "Actualiza la descripción de un producto existente de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Parametro de la ruta: El `id` del producto a actualizar.\n- Body: Enviar un JSON que contiene la nueva `description` del producto (solo se actualiza la descripción del producto).\n- Respuesta: Actualiza la descripción del producto y devuelve el producto actualizado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "descripción": "El id del producto"
+          }
+        ],
+        "operationId": "updateproductdescription",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/updateproductdescriptionrequest"
+                  },
+                  {
+                    "example": {
+                      "description": "descripción modificada"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "description": "descripción modificada"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cart": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "get cart",
+        "description": "Muestra el carrito de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Devuelve el carrito del usuario autenticado.",
+        "operationId": "getcart",
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/product_cart": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "add product to cart",
+        "description": "Agrega un producto al carrito de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: Envia un JSON que contiene `productId` y `quantity`.\n- Respuesta: Agrega el producto al carrito y devuelve el carrito actualizado.",
+        "operationId": "addproducttocart",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/addproducttocartrequest"
+                  },
+                  {
+                    "example": {
+                      "productId": 1,
+                      "quantity": 1
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "productId": 1,
+                "quantity": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/product/{productId}": {
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "detete product in cart by ID",
+        "description": "Elimina un producto del carrito de unusuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Parametro de la ruta: El `productId` del producto a eliminar.\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Elimina el producto del carrito y devuelve el carrito actualizado.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "descripción": "El id del producto"
+          }
+        ],
+        "operationId": "deteteproductincartbyID",
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/product": {
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "update product to cart",
+        "description": "Actualiza la cantidad de un producto específico en el carrito de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: Envia un JSON que contiene `productId` y la nueva `quantity`.\n- Respuesta: Actualiza la cantidad del producto en el carrito y devuelve el carrito actualizado.",
+        "operationId": "updateproducttocart",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/updateproducttocartrequest"
+                  },
+                  {
+                    "example": {
+                      "productId": "1",
+                      "quantity": 10
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "productId": "1",
+                "quantity": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/orders": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "To make a purchase",
+        "description": "Realiza una compra para el usuario autenticado y vacía su carrito.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Crea una nueva orden y devuelve los detalles de la orden.",
+        "operationId": "Tomakeapurchase",
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "get all orders",
+        "description": "StartFragment\n\nObtiene todas las ordenes de un usuario autenticado.\n\n- Headers: Token de autenticación en un campo llamado 'authorization'.\n- Body: No necesita datos en el cuerpo de la solicitud.\n- Respuesta: Devuelve una lista de todas las órdenes del usuario.\n    \n\nEndFragment",
+        "operationId": "getallorders",
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/request_password": {
+      "post": {
+        "tags": [
+          "resertPassword"
+        ],
+        "summary": "request Password Reset",
+        "description": "Solicita un reseteo de la contraseña para un usuario.\n\n- Body: se envia un JSON que contiene el `email` del usuario.\n- Respuesta: Envía un correo electrónico al usuario con un token de reseteo y devuelve un status 200.\n    \n\nNota: solo se envia el correo electrónico con una plantilla de reestablecimiento de contraseña pero el botón aun no tiene funcionalidad.",
+        "operationId": "requestPasswordReset",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/requestPasswordResetRequest"
+                  },
+                  {
+                    "example": {
+                      "email": "william@gmail.com"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "email": "william@gmail.com"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/update_password": {
+      "post": {
+        "tags": [
+          "resertPassword"
+        ],
+        "summary": "update password",
+        "description": "Cambia la contraseña de un usuario.\n\n- Body: envia un JSON que contiene el `token` recibido por correo y la `newPassword`.\n- Respuesta: Actualiza la contraseña del usuario y devuelve un mensaje de éxito.\n    \n\nNota: Tienes un plazo de 1 hora para actualizar tu contraseña. Si no lo haces dentro de este tiempo, deberás solicitar nuevamente el cambio de contraseña.",
+        "operationId": "updatepassword",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/updatepasswordrequest"
+                  },
+                  {
+                    "example": {
+                      "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjg2NDkzOTYwLCJleHAiOjE2ODY0OTc1NjB9.ObcqeMtro2LljAua3H0Q3T_40uHVBjfCejFjEhB7TycdS1AOL151JSpJYsWlWEViOEJr27aJWBeY_EcjRrH36w",
+                      "newPassword": "12345"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjg2NDkzOTYwLCJleHAiOjE2ODY0OTc1NjB9.ObcqeMtro2LljAua3H0Q3T_40uHVBjfCejFjEhB7TycdS1AOL151JSpJYsWlWEViOEJr27aJWBeY_EcjRrH36w",
+                "newPassword": "12345"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "createauserrequest": {
+        "title": "createauserrequest",
+        "required": [
+          "username",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "username": "william",
+          "email": "william@gmail.com",
+          "password": "1234"
+        }
+      },
+      "loginrequest": {
+        "title": "loginrequest",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "william@gmail.com",
+          "password": "12345678"
+        }
+      },
+      "updateproductdescriptionrequest": {
+        "title": "updateproductdescriptionrequest",
+        "required": [
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "description": "descripción modificada"
+        }
+      },
+      "addproducttocartrequest": {
+        "title": "addproducttocartrequest",
+        "required": [
+          "productId",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "productId": 1,
+          "quantity": 1
+        }
+      },
+      "updateproducttocartrequest": {
+        "title": "updateproducttocartrequest",
+        "required": [
+          "productId",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "productId": "1",
+          "quantity": 10
+        }
+      },
+      "requestPasswordResetRequest": {
+        "title": "requestPasswordResetRequest",
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "william@gmail.com"
+        }
+      },
+      "updatepasswordrequest": {
+        "title": "updatepasswordrequest",
+        "required": [
+          "token",
+          "newPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "token": "",
+          "newPassword": "12345"
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "users"
+    },
+    {
+      "name": "products"
+    },
+    {
+      "name": "Cart"
+    },
+    {
+      "name": "Order"
+    },
+    {
+      "name": "resertPassword"
+    }
+  ]
+}
